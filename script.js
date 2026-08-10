@@ -107,7 +107,7 @@
         if (dist < CONFIG.maxDist) {
           const opacity = (1 - dist / CONFIG.maxDist) * CONFIG.lineOpacity;
           ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[j].y);
+          ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.strokeStyle = `rgba(0, 240, 255, ${opacity})`;
           ctx.lineWidth = 0.6;
