@@ -11,14 +11,21 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Multi-layer background -->
+  <div class="aurora"></div>
   <canvas id="bg-canvas"></canvas>
+  <div class="floating-shapes" id="shapes"></div>
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+  <div class="vignette"></div>
+
+  <!-- Cursor system -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
-
-  <div class="noise"></div>
+  <div class="cursor-trail" id="cursor-trail"></div>
 
   <nav class="nav">
-    <div class="nav-logo">THN</div>
+    <div class="nav-logo" data-text="THN">THN</div>
     <ul class="nav-links">
       <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
       <li><a href="#about" class="nav-link" data-section="about">About</a></li>
@@ -30,17 +37,22 @@
     <!-- HERO -->
     <section id="home" class="section hero">
       <div class="hero-content">
-        <div class="hero-tag">// SYSTEM ONLINE</div>
-        <h1 class="hero-name" data-text="TRẦN HOÀNG NAM">
+        <div class="hero-tag">
+          <span class="tag-bracket">[</span>
+          <span class="tag-text">SYSTEM ONLINE</span>
+          <span class="tag-bracket">]</span>
+        </div>
+        <h1 class="hero-name">
           <span class="glitch" data-text="TRẦN HOÀNG NAM">TRẦN HOÀNG NAM</span>
         </h1>
         <p class="hero-subtitle">
-          <span class="typed-text"></span><span class="cursor-blink">|</span>
+          <span class="typed-text"></span><span class="cursor-blink">_</span>
         </p>
         <div class="hero-cta">
-          <a href="#about" class="btn btn-primary">
-            <span>Khám phá</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <a href="#about" class="btn btn-primary magnetic">
+            <span class="btn-text">Khám phá</span>
+            <span class="btn-glow"></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
@@ -50,7 +62,12 @@
         <div class="mouse">
           <div class="wheel"></div>
         </div>
-        <span>Scroll</span>
+        <span>SCROLL</span>
+      </div>
+      <div class="hero-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
       </div>
     </section>
 
@@ -63,7 +80,9 @@
           <div class="section-line"></div>
         </div>
         <div class="about-grid">
-          <div class="about-card glass">
+          <div class="about-card glass magnetic" data-tilt>
+            <div class="card-border"></div>
+            <div class="card-scan"></div>
             <div class="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -76,7 +95,9 @@
               Sinh ra và lớn lên tại Nghệ An, tôi mang trong mình sự quyết tâm và khát khao chinh phục những điều mới mẻ.
             </p>
           </div>
-          <div class="about-card glass">
+          <div class="about-card glass magnetic" data-tilt>
+            <div class="card-border"></div>
+            <div class="card-scan"></div>
             <div class="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -90,7 +111,9 @@
               Luôn hướng tới sự hoàn thiện trong từng chi tiết nhỏ nhất.
             </p>
           </div>
-          <div class="about-card glass">
+          <div class="about-card glass magnetic" data-tilt>
+            <div class="card-border"></div>
+            <div class="card-scan"></div>
             <div class="card-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <circle cx="12" cy="12" r="10"/>
@@ -116,22 +139,26 @@
           <div class="section-line"></div>
         </div>
         <div class="info-grid">
-          <div class="info-item glass" data-tilt>
+          <div class="info-item glass magnetic" data-tilt>
+            <div class="info-ring"></div>
             <div class="info-label">Họ và tên</div>
             <div class="info-value">Trần Hoàng Nam</div>
             <div class="info-glow"></div>
           </div>
-          <div class="info-item glass" data-tilt>
+          <div class="info-item glass magnetic" data-tilt>
+            <div class="info-ring"></div>
             <div class="info-label">Ngày sinh</div>
             <div class="info-value">02 / 01 / 2009</div>
             <div class="info-glow"></div>
           </div>
-          <div class="info-item glass" data-tilt>
+          <div class="info-item glass magnetic" data-tilt>
+            <div class="info-ring"></div>
             <div class="info-label">Địa chỉ</div>
             <div class="info-value">Nghệ An, Việt Nam</div>
             <div class="info-glow"></div>
           </div>
-          <div class="info-item glass" data-tilt>
+          <div class="info-item glass magnetic" data-tilt>
+            <div class="info-ring"></div>
             <div class="info-label">Tuổi</div>
             <div class="info-value age-counter">17</div>
             <div class="info-glow"></div>
@@ -144,8 +171,8 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <div class="footer-logo">THN</div>
-          <p class="footer-text">© 2026 Trần Hoàng Nam. All systems operational.</p>
+          <div class="footer-logo" data-text="THN">THN</div>
+          <p class="footer-text">© 2026 Trần Hoàng Nam · All systems operational</p>
           <div class="footer-line"></div>
         </div>
       </div>
