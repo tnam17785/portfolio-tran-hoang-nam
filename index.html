@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trần Hoàng Nam | Portfolio</title>
+  <meta name="description" content="Trang giới thiệu bản thân của Trần Hoàng Nam">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
+  <div class="noise"></div>
+
+  <nav class="nav">
+    <div class="nav-logo">THN</div>
+    <ul class="nav-links">
+      <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+      <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+      <li><a href="#info" class="nav-link" data-section="info">Info</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="section hero">
+      <div class="hero-content">
+        <div class="hero-tag">// SYSTEM ONLINE</div>
+        <h1 class="hero-name" data-text="TRẦN HOÀNG NAM">
+          <span class="glitch" data-text="TRẦN HOÀNG NAM">TRẦN HOÀNG NAM</span>
+        </h1>
+        <p class="hero-subtitle">
+          <span class="typed-text"></span><span class="cursor-blink">|</span>
+        </p>
+        <div class="hero-cta">
+          <a href="#about" class="btn btn-primary">
+            <span>Khám phá</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <h2 class="section-title">Giới thiệu</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="about-grid">
+          <div class="about-card glass">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <h3>Về tôi</h3>
+            <p>
+              Xin chào. Tôi là <strong>Trần Hoàng Nam</strong> — một người trẻ đang trên hành trình khám phá và xây dựng tương lai của chính mình. 
+              Sinh ra và lớn lên tại Nghệ An, tôi mang trong mình sự quyết tâm và khát khao chinh phục những điều mới mẻ.
+            </p>
+          </div>
+          <div class="about-card glass">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <h3>Phong cách</h3>
+            <p>
+              Tôi yêu sự tối giản nhưng mạnh mẽ. Thích những thứ có chiều sâu, hiệu quả và mang dấu ấn cá nhân. 
+              Luôn hướng tới sự hoàn thiện trong từng chi tiết nhỏ nhất.
+            </p>
+          </div>
+          <div class="about-card glass">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <h3>Hành trình</h3>
+            <p>
+              Mỗi ngày là một bước tiến. Tôi tin vào việc học hỏi liên tục, thử thách bản thân và biến ý tưởng thành hiện thực. 
+              Tương lai không chờ đợi — nó được tạo ra.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO -->
+    <section id="info" class="section info">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <h2 class="section-title">Thông tin</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="info-grid">
+          <div class="info-item glass" data-tilt>
+            <div class="info-label">Họ và tên</div>
+            <div class="info-value">Trần Hoàng Nam</div>
+            <div class="info-glow"></div>
+          </div>
+          <div class="info-item glass" data-tilt>
+            <div class="info-label">Ngày sinh</div>
+            <div class="info-value">02 / 01 / 2009</div>
+            <div class="info-glow"></div>
+          </div>
+          <div class="info-item glass" data-tilt>
+            <div class="info-label">Địa chỉ</div>
+            <div class="info-value">Nghệ An, Việt Nam</div>
+            <div class="info-glow"></div>
+          </div>
+          <div class="info-item glass" data-tilt>
+            <div class="info-label">Tuổi</div>
+            <div class="info-value age-counter">17</div>
+            <div class="info-glow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">THN</div>
+          <p class="footer-text">© 2026 Trần Hoàng Nam. All systems operational.</p>
+          <div class="footer-line"></div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
