@@ -11,24 +11,41 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Multi-layer background -->
+  <div class="boot-screen" id="boot-screen">
+    <div class="boot-content">
+      <div class="boot-logo">THN</div>
+      <div class="boot-line" id="boot-line">INITIALIZING SYSTEM...</div>
+      <div class="boot-bar"><div class="boot-bar-fill" id="boot-bar-fill"></div></div>
+      <div class="boot-skip">CLICK / ESC TO SKIP</div>
+    </div>
+  </div>
+
   <div class="aurora"></div>
   <canvas id="bg-canvas"></canvas>
   <canvas id="matrix-canvas"></canvas>
+  <canvas id="graffiti-canvas"></canvas>
   <div class="floating-shapes" id="shapes"></div>
   <div class="scanlines"></div>
   <div class="noise"></div>
   <div class="vignette"></div>
 
-  <!-- Scroll progress -->
   <div class="scroll-progress" id="scroll-progress"></div>
-
-  <!-- Cursor system -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
-
-  <!-- Glitch overlay for random bursts -->
   <div class="page-glitch" id="page-glitch"></div>
+
+  <nav class="section-dots" id="section-dots">
+    <a href="#home" class="dot active" data-section="home" title="Home"></a>
+    <a href="#about" class="dot" data-section="about" title="About"></a>
+    <a href="#info" class="dot" data-section="info" title="Info"></a>
+  </nav>
+
+  <div class="hud" id="hud">
+    <div class="hud-row"><span>MODE</span><span id="hud-mode">NOMINAL</span></div>
+    <div class="hud-row"><span>PARTICLES</span><span id="hud-particles">0</span></div>
+    <div class="hud-row"><span>FPS</span><span id="hud-fps">60</span></div>
+    <div class="hud-row"><span>THEME</span><span id="hud-theme">CYAN</span></div>
+  </div>
 
   <nav class="nav">
     <div class="nav-logo" id="nav-logo" data-text="THN" title="Double-click me">THN</div>
@@ -37,11 +54,16 @@
       <li><a href="#about" class="nav-link" data-section="about">About</a></li>
       <li><a href="#info" class="nav-link" data-section="info">Info</a></li>
     </ul>
-    <div class="nav-clock" id="nav-clock">00:00:00</div>
+    <div class="nav-right">
+      <div class="secrets-badge" id="secrets-badge" title="Secrets found">◆ 0/7</div>
+      <button class="nav-mode" id="btn-mode" title="Particle mode">REPEL</button>
+      <button class="nav-sfx" id="btn-sfx" title="Sound">♪</button>
+      <button class="nav-cmd" id="btn-cmd" title="Command Palette (Ctrl+K)">⌘K</button>
+      <div class="nav-clock" id="nav-clock">00:00:00</div>
+    </div>
   </nav>
 
   <main>
-    <!-- HERO -->
     <section id="home" class="section hero">
       <div class="hero-content">
         <div class="hero-tag">
@@ -64,12 +86,10 @@
             </svg>
           </a>
         </div>
-        <div class="secret-hint">↑↑↓↓←→←→BA · or double-click logo</div>
+        <div class="secret-hint">↑↑↓↓←→←→BA · REPEL button · DBL-CLICK cards · FAST MOUSE</div>
       </div>
       <div class="scroll-indicator">
-        <div class="mouse">
-          <div class="wheel"></div>
-        </div>
+        <div class="mouse"><div class="wheel"></div></div>
         <span>SCROLL</span>
       </div>
       <div class="hero-orbs">
@@ -79,7 +99,6 @@
       </div>
     </section>
 
-    <!-- ABOUT -->
     <section id="about" class="section about">
       <div class="container">
         <div class="section-header">
@@ -91,54 +110,34 @@
           <div class="about-card glass magnetic" data-tilt>
             <div class="card-border"></div>
             <div class="card-scan"></div>
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-              </svg>
-            </div>
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
             <h3 class="scramble-target" data-text="Về tôi">Về tôi</h3>
-            <p>
-              Xin chào. Tôi là <strong>Trần Hoàng Nam</strong> — một người trẻ đang trên hành trình khám phá và xây dựng tương lai của chính mình. 
-              Sinh ra và lớn lên tại Nghệ An, tôi mang trong mình sự quyết tâm và khát khao chinh phục những điều mới mẻ.
-            </p>
+            <p class="card-front-text">Xin chào. Tôi là <strong>Trần Hoàng Nam</strong> — một người trẻ đang trên hành trình khám phá và xây dựng tương lai của chính mình. Sinh ra và lớn lên tại Nghệ An, tôi mang trong mình sự quyết tâm và khát khao chinh phục những điều mới mẻ.</p>
+            <p class="card-back-text">SECRET // “Không chờ cơ hội — tự tạo ra nó.” Double-click card để lật.</p>
+            <span class="flip-hint">DBL-CLICK FLIP</span>
           </div>
           <div class="about-card glass magnetic" data-tilt>
             <div class="card-border"></div>
             <div class="card-scan"></div>
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                <path d="M2 17l10 5 10-5"/>
-                <path d="M2 12l10 5 10-5"/>
-              </svg>
-            </div>
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
             <h3 class="scramble-target" data-text="Phong cách">Phong cách</h3>
-            <p>
-              Tôi yêu sự tối giản nhưng mạnh mẽ. Thích những thứ có chiều sâu, hiệu quả và mang dấu ấn cá nhân. 
-              Luôn hướng tới sự hoàn thiện trong từng chi tiết nhỏ nhất.
-            </p>
+            <p class="card-front-text">Tôi yêu sự tối giản nhưng mạnh mẽ. Thích những thứ có chiều sâu, hiệu quả và mang dấu ấn cá nhân. Luôn hướng tới sự hoàn thiện trong từng chi tiết nhỏ nhất.</p>
+            <p class="card-back-text">SECRET // Phong thái: tối · sắc · không thỏa hiệp.</p>
+            <span class="flip-hint">DBL-CLICK FLIP</span>
           </div>
           <div class="about-card glass magnetic" data-tilt>
             <div class="card-border"></div>
             <div class="card-scan"></div>
-            <div class="card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M12 6v6l4 2"/>
-              </svg>
-            </div>
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
             <h3 class="scramble-target" data-text="Hành trình">Hành trình</h3>
-            <p>
-              Mỗi ngày là một bước tiến. Tôi tin vào việc học hỏi liên tục, thử thách bản thân và biến ý tưởng thành hiện thực. 
-              Tương lai không chờ đợi — nó được tạo ra.
-            </p>
+            <p class="card-front-text">Mỗi ngày là một bước tiến. Tôi tin vào việc học hỏi liên tục, thử thách bản thân và biến ý tưởng thành hiện thực. Tương lai không chờ đợi — nó được tạo ra.</p>
+            <p class="card-back-text">SECRET // 2009 → ∞ · Nghệ An origin.</p>
+            <span class="flip-hint">DBL-CLICK FLIP</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- INFO -->
     <section id="info" class="section info">
       <div class="container">
         <div class="section-header">
@@ -168,14 +167,14 @@
           <div class="info-item glass magnetic" data-tilt>
             <div class="info-ring"></div>
             <div class="info-label">Tuổi</div>
-            <div class="info-value age-counter">17</div>
+            <div class="info-value age-counter" id="age-years">17</div>
+            <div class="live-age" id="live-age">— ngày · — giờ · — giây</div>
             <div class="info-glow"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
@@ -187,7 +186,6 @@
     </footer>
   </main>
 
-  <!-- Cyber Terminal -->
   <div class="terminal" id="terminal">
     <div class="terminal-header">
       <span class="terminal-dot red"></span>
@@ -196,9 +194,21 @@
       <span class="terminal-title">SYSTEM // LOG</span>
     </div>
     <div class="terminal-body" id="terminal-body"></div>
+    <div class="terminal-input-row">
+      <span class="terminal-prompt">></span>
+      <input type="text" class="terminal-input" id="terminal-input" placeholder="type help..." autocomplete="off" spellcheck="false">
+    </div>
   </div>
 
-  <!-- Overdrive indicator -->
+  <div class="cmd-overlay" id="cmd-overlay">
+    <div class="cmd-box">
+      <input type="text" class="cmd-input" id="cmd-input" placeholder="Type a command..." autocomplete="off">
+      <div class="cmd-list" id="cmd-list"></div>
+      <div class="cmd-hint">↑↓ navigate · Enter run · Esc close</div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
   <div class="overdrive-badge" id="overdrive-badge">OVERDRIVE</div>
 
   <script src="script.js"></script>
