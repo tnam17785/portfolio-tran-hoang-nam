@@ -7,30 +7,37 @@
   <meta name="description" content="Trang giới thiệu bản thân của Trần Hoàng Nam">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <!-- Multi-layer background -->
   <div class="aurora"></div>
   <canvas id="bg-canvas"></canvas>
+  <canvas id="matrix-canvas"></canvas>
   <div class="floating-shapes" id="shapes"></div>
   <div class="scanlines"></div>
   <div class="noise"></div>
   <div class="vignette"></div>
 
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
   <!-- Cursor system -->
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
-  <div class="cursor-trail" id="cursor-trail"></div>
+
+  <!-- Glitch overlay for random bursts -->
+  <div class="page-glitch" id="page-glitch"></div>
 
   <nav class="nav">
-    <div class="nav-logo" data-text="THN">THN</div>
+    <div class="nav-logo" id="nav-logo" data-text="THN" title="Double-click me">THN</div>
     <ul class="nav-links">
       <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
       <li><a href="#about" class="nav-link" data-section="about">About</a></li>
       <li><a href="#info" class="nav-link" data-section="info">Info</a></li>
     </ul>
+    <div class="nav-clock" id="nav-clock">00:00:00</div>
   </nav>
 
   <main>
@@ -42,7 +49,7 @@
           <span class="tag-text">SYSTEM ONLINE</span>
           <span class="tag-bracket">]</span>
         </div>
-        <h1 class="hero-name">
+        <h1 class="hero-name" id="hero-name">
           <span class="glitch" data-text="TRẦN HOÀNG NAM">TRẦN HOÀNG NAM</span>
         </h1>
         <p class="hero-subtitle">
@@ -57,6 +64,7 @@
             </svg>
           </a>
         </div>
+        <div class="secret-hint">↑↑↓↓←→←→BA · or double-click logo</div>
       </div>
       <div class="scroll-indicator">
         <div class="mouse">
@@ -76,7 +84,7 @@
       <div class="container">
         <div class="section-header">
           <span class="section-number">01</span>
-          <h2 class="section-title">Giới thiệu</h2>
+          <h2 class="section-title scramble-target" data-text="Giới thiệu">Giới thiệu</h2>
           <div class="section-line"></div>
         </div>
         <div class="about-grid">
@@ -89,7 +97,7 @@
                 <circle cx="12" cy="7" r="4"/>
               </svg>
             </div>
-            <h3>Về tôi</h3>
+            <h3 class="scramble-target" data-text="Về tôi">Về tôi</h3>
             <p>
               Xin chào. Tôi là <strong>Trần Hoàng Nam</strong> — một người trẻ đang trên hành trình khám phá và xây dựng tương lai của chính mình. 
               Sinh ra và lớn lên tại Nghệ An, tôi mang trong mình sự quyết tâm và khát khao chinh phục những điều mới mẻ.
@@ -105,7 +113,7 @@
                 <path d="M2 12l10 5 10-5"/>
               </svg>
             </div>
-            <h3>Phong cách</h3>
+            <h3 class="scramble-target" data-text="Phong cách">Phong cách</h3>
             <p>
               Tôi yêu sự tối giản nhưng mạnh mẽ. Thích những thứ có chiều sâu, hiệu quả và mang dấu ấn cá nhân. 
               Luôn hướng tới sự hoàn thiện trong từng chi tiết nhỏ nhất.
@@ -120,7 +128,7 @@
                 <path d="M12 6v6l4 2"/>
               </svg>
             </div>
-            <h3>Hành trình</h3>
+            <h3 class="scramble-target" data-text="Hành trình">Hành trình</h3>
             <p>
               Mỗi ngày là một bước tiến. Tôi tin vào việc học hỏi liên tục, thử thách bản thân và biến ý tưởng thành hiện thực. 
               Tương lai không chờ đợi — nó được tạo ra.
@@ -135,7 +143,7 @@
       <div class="container">
         <div class="section-header">
           <span class="section-number">02</span>
-          <h2 class="section-title">Thông tin</h2>
+          <h2 class="section-title scramble-target" data-text="Thông tin">Thông tin</h2>
           <div class="section-line"></div>
         </div>
         <div class="info-grid">
@@ -178,6 +186,20 @@
       </div>
     </footer>
   </main>
+
+  <!-- Cyber Terminal -->
+  <div class="terminal" id="terminal">
+    <div class="terminal-header">
+      <span class="terminal-dot red"></span>
+      <span class="terminal-dot yellow"></span>
+      <span class="terminal-dot green"></span>
+      <span class="terminal-title">SYSTEM // LOG</span>
+    </div>
+    <div class="terminal-body" id="terminal-body"></div>
+  </div>
+
+  <!-- Overdrive indicator -->
+  <div class="overdrive-badge" id="overdrive-badge">OVERDRIVE</div>
 
   <script src="script.js"></script>
 </body>
