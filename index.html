@@ -26,6 +26,7 @@
   <canvas id="bg-canvas"></canvas>
   <canvas id="matrix-canvas"></canvas>
   <canvas id="graffiti-canvas"></canvas>
+  <canvas id="paint-canvas"></canvas>
   <div class="floating-shapes" id="shapes"></div>
   <div class="scanlines"></div>
   <div class="noise"></div>
@@ -48,6 +49,8 @@
     <div class="hud-row"><span>PERF</span><span id="hud-perf">OFF</span></div>
     <div class="hud-row"><span>SESSION</span><span id="hud-session">0:00</span></div>
     <div class="hud-row"><span>GRAVITY</span><span id="hud-grav">OFF</span></div>
+    <div class="hud-row"><span>SCORE</span><span id="hud-score">0</span></div>
+    <div class="hud-row"><span>CHARGE</span><span id="hud-charge">0%</span></div>
   </div>
 
   <nav class="nav">
@@ -58,12 +61,14 @@
       <li><a href="#info" class="nav-link" data-section="info">Info</a></li>
     </ul>
     <div class="nav-right">
-      <div class="secrets-badge" id="secrets-badge" title="Secrets found — click to open log">◆ 0/7</div>
+      <div class="secrets-badge" id="secrets-badge" title="Secrets found">◆ 0/7</div>
       <button class="nav-mode" id="btn-mode" title="Particle mode">REPEL</button>
       <button class="nav-sfx" id="btn-sfx" title="Sound">♪</button>
-      <button class="nav-mode" id="btn-perf" title="Performance mode">PERF</button>
-      <button class="nav-mode" id="btn-grav" title="Gravity mode (G)">GRAV</button>
-      <button class="nav-cmd" id="btn-cmd" title="Command Palette (Ctrl+K)">⌘K</button>
+      <button class="nav-mode" id="btn-perf" title="Performance">PERF</button>
+      <button class="nav-mode" id="btn-grav" title="Gravity (G)">GRAV</button>
+      <button class="nav-mode" id="btn-paint" title="Paint (P)">PAINT</button>
+      <button class="nav-mode" id="btn-play" title="Catch game (X)">PLAY</button>
+      <button class="nav-cmd" id="btn-cmd" title="Ctrl+K">⌘K</button>
       <div class="nav-clock" id="nav-clock">00:00:00</div>
     </div>
   </nav>
@@ -87,7 +92,7 @@
             <span class="btn-glow"></span>
           </a>
         </div>
-        <p class="secret-hint">Space · A · G · F · W · Ctrl+K · REPEL · PERF · GRAV</p>
+        <p class="secret-hint">Hold-click · P paint · X catch · Q AI · Space · A</p>
       </div>
       <div class="hero-orbs">
         <div class="orb orb-1"></div>
@@ -212,13 +217,27 @@
         <button class="ach-close" id="ach-close">✕</button>
       </div>
       <div class="ach-list" id="ach-list"></div>
-      <div class="ach-footer">Press A to toggle · Collect all 7</div>
+      <div class="ach-footer">Press A to toggle</div>
+    </div>
+  </div>
+
+  <div class="ai-panel" id="ai-panel">
+    <div class="ai-header"><span>◆ THN // BRIEF</span><button class="ai-close" id="ai-close">✕</button></div>
+    <div class="ai-body" id="ai-body"></div>
+    <div class="ai-actions">
+      <button data-q="who">Who?</button>
+      <button data-q="from">From?</button>
+      <button data-q="age">Age?</button>
+      <button data-q="goal">Goal?</button>
+      <button data-q="skill">Skills?</button>
     </div>
   </div>
 
   <div class="toast-container" id="toast-container"></div>
   <div class="overdrive-badge" id="overdrive-badge">OVERDRIVE</div>
   <div class="freeze-badge" id="freeze-badge">FROZEN</div>
+  <div class="charge-ring" id="charge-ring"></div>
+  <div class="game-banner" id="game-banner">CATCH MODE · touch the orbs</div>
 
   <script src="script.js"></script>
 </body>
