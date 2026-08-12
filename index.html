@@ -46,6 +46,8 @@
     <div class="hud-row"><span>THEME</span><span id="hud-theme">CYAN</span></div>
     <div class="hud-row"><span>CLICKS</span><span id="hud-clicks">0</span></div>
     <div class="hud-row"><span>PERF</span><span id="hud-perf">OFF</span></div>
+    <div class="hud-row"><span>SESSION</span><span id="hud-session">0:00</span></div>
+    <div class="hud-row"><span>GRAVITY</span><span id="hud-grav">OFF</span></div>
   </div>
 
   <nav class="nav">
@@ -59,7 +61,8 @@
       <div class="secrets-badge" id="secrets-badge" title="Secrets found — click to open log">◆ 0/7</div>
       <button class="nav-mode" id="btn-mode" title="Particle mode">REPEL</button>
       <button class="nav-sfx" id="btn-sfx" title="Sound">♪</button>
-      <button class="nav-mode" id="btn-perf" title="Performance mode (fewer particles)">PERF</button>
+      <button class="nav-mode" id="btn-perf" title="Performance mode">PERF</button>
+      <button class="nav-mode" id="btn-grav" title="Gravity mode (G)">GRAV</button>
       <button class="nav-cmd" id="btn-cmd" title="Command Palette (Ctrl+K)">⌘K</button>
       <div class="nav-clock" id="nav-clock">00:00:00</div>
     </div>
@@ -84,7 +87,7 @@
             <span class="btn-glow"></span>
           </a>
         </div>
-        <p class="secret-hint">Ctrl+K · Space · A · REPEL · Double-click logo</p>
+        <p class="secret-hint">Space · A · G · F · W · Ctrl+K · REPEL · PERF · GRAV</p>
       </div>
       <div class="hero-orbs">
         <div class="orb orb-1"></div>
@@ -215,6 +218,7 @@
 
   <div class="toast-container" id="toast-container"></div>
   <div class="overdrive-badge" id="overdrive-badge">OVERDRIVE</div>
+  <div class="freeze-badge" id="freeze-badge">FROZEN</div>
 
   <script src="script.js"></script>
 </body>
