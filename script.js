@@ -1,6 +1,9 @@
 (() => {
  'use strict';
  let overdrive = false;
+ let gravityOn = false;
+ let frozen = false;
+ const sessionStart = Date.now();
  let particleMode = 'repel';
  let sfxOn = false;
  let secretsFound = 0;
@@ -43,7 +46,7 @@
  }
  }
  update() {
- this.x += this.vx; this.y += this.vy;
+ if (frozen) return; if (gravityOn) { this.vy += 0.08; this.vx *= 0.99; } this.x += this.vx; this.y += this.vy;
  if (this.x < 0 || this.x > width) this.vx *= -1;
  if (this.y < 0 || this.y > height) this.vy *= -1;
  if (mouse.x !== null) {
@@ -237,7 +240,7 @@
  if (cursor) { cursor.classList.add('click'); setTimeout(() => cursor.classList.remove('click'), 200); }
  });
  const typedEl = document.querySelector('.typed-text');
- const phrases = ['Creator • Explorer • Builder', 'Nghệ An → Thế giới', 'Code. Create. Conquer.', 'Future is now.', 'Stay sharp. Stay rare.', 'Try Ctrl+K or REPEL'];
+ const phrases = ['Creator • Explorer • Builder', 'Nghệ An → Thế giới', 'Code. Create. Conquer.', 'Future is now.', 'Stay sharp. Stay rare.', 'Try Ctrl+K · G · F · W'];
  let phraseIndex = 0, charIndex = 0, isDeleting = false, typeSpeed = 75;
  function type() {
  if (!typedEl) return;
@@ -292,7 +295,7 @@
  const terminalBody = document.getElementById('terminal-body');
  const terminalInput = document.getElementById('terminal-input');
  const terminal = document.getElementById('terminal');
- const autoMessages = ['boot sequence initiated...', 'loading core modules... OK', 'particle engine online', 'identity: TRAN HOANG NAM', 'location: NGHE AN // VN', 'status: ALL SYSTEMS NOMINAL', 'awaiting input...', 'hint: click REPEL or Ctrl+K', 'scanning environment...', 'no threats detected', 'render pipeline active', 'user presence confirmed'];
+ const autoMessages = ['boot sequence initiated...', 'particle engine online', 'identity: TRAN HOANG NAM', 'location: NGHE AN // VN', 'status: ALL SYSTEMS NOMINAL', 'hint: G gravity · F freeze · W warp', 'awaiting input...'];
  let termIndex = 0;
  function addTerminalLine(text, isCmd) {
  if (!terminalBody) return;
@@ -326,19 +329,23 @@
  const c = cmd.trim().toLowerCase();
  if (!c) return;
  addTerminalLine(c, true);
- if (c === 'help') addTerminalLine('help, overdrive, theme, clear, status, whoami, glitch, hud, quote, perf, secrets, burst');
+ if (c === 'help') addTerminalLine('help, overdrive, theme, status, whoami, glitch, hud, quote, perf, secrets, burst, grav, freeze, warp, copy');
  else if (c === 'overdrive' || c === 'od') activateOverdrive();
  else if (c.startsWith('theme ')) setTheme(c.split(' ')[1]);
  else if (c === 'clear') { if (terminalBody) terminalBody.innerHTML = ''; }
- else if (c === 'status') addTerminalLine('mode: ' + (overdrive ? 'OVERDRIVE' : 'NOMINAL') + ' | particles: ' + particleCount + ' | theme: ' + currentTheme);
+ else if (c === 'status') addTerminalLine('mode: ' + (overdrive ? 'OVERDRIVE' : 'NOMINAL') + ' | particles: ' + particleCount);
  else if (c === 'whoami') { addTerminalLine('TRAN HOANG NAM // 2009 // NGHE AN'); unlockAchievement('identity', 'IDENTITY CONFIRMED', 'whoami'); }
- else if (c === 'glitch') { triggerPageGlitch(); addTerminalLine('glitch burst triggered'); }
- else if (c === 'hud') { toggleHUD(); addTerminalLine('HUD toggled'); }
+ else if (c === 'glitch') { triggerPageGlitch(); addTerminalLine('glitch burst'); }
+ else if (c === 'hud') { toggleHUD(); }
  else if (c === 'perf') setPerf(!perfMode);
  else if (c === 'secrets' || c === 'ach') openAch();
  else if (c === 'burst') { for (let i = 0; i < 28; i++) bursts.push(new BurstParticle(width / 2, height / 2)); }
  else if (c === 'quote') { const qs = ['Stay sharp. Stay rare.', 'Nghệ An → the world.', 'Glitch is a feature.']; const q = qs[Math.floor(Math.random() * qs.length)]; addTerminalLine('"' + q + '"'); showToast('QUOTE', q); }
- else addTerminalLine('unknown command: ' + c);
+ else if (c === 'grav' || c === 'gravity') setGravity(!gravityOn);
+ else if (c === 'freeze' || c === 'pause') setFrozen(!frozen);
+ else if (c === 'warp') timeWarp();
+ else if (c === 'copy') { if (navigator.clipboard) navigator.clipboard.writeText('Trần Hoàng Nam'); showToast('COPIED', 'Trần Hoàng Nam'); }
+ else addTerminalLine('unknown: ' + c);
  }
  if (terminalInput) {
  terminalInput.addEventListener('keydown', e => {
@@ -380,7 +387,7 @@
  }, 30 + i * 25);
  });
  setTimeout(() => { heroName.innerHTML = '<span class="glitch" data-text="TRẦN HOÀNG NAM">TRẦN HOÀNG NAM</span>'; }, 1400);
- addTerminalLine('identity scatter protocol executed');
+ addTerminalLine('identity scatter protocol');
  unlockAchievement('scatter', 'IDENTITY SCATTER', 'Name explosion');
  }
  if (heroName) heroName.addEventListener('click', explodeName);
@@ -444,7 +451,7 @@
  if (achievements.has(id)) return;
  achievements.add(id);
  showToast('ACHIEVEMENT', title + (msg ? ' — ' + msg : ''));
- addTerminalLine('achievement unlocked: ' + title);
+ addTerminalLine('achievement: ' + title);
  registerSecret(id, title, msg);
  }
  const hud = document.getElementById('hud');
@@ -461,7 +468,7 @@
  function toggleHUD() {
  hudVisible = !hudVisible;
  if (hud) hud.classList.toggle('visible', hudVisible);
- if (hudVisible) unlockAchievement('hud', 'SYSTEM HUD', 'Telemetry online');
+ if (hudVisible) unlockAchievement('hud', 'SYSTEM HUD', 'Telemetry');
  }
  document.addEventListener('keydown', e => {
  if ((e.key === 'h' || e.key === 'H') && document.activeElement.tagName !== 'INPUT') toggleHUD();
@@ -472,7 +479,7 @@
  const map = { cyan: null, magenta: 'theme-magenta', lime: 'theme-lime', gold: 'theme-gold' };
  if (map[name]) document.body.classList.add(map[name]);
  currentTheme = name || 'cyan';
- addTerminalLine('theme set: ' + currentTheme);
+ addTerminalLine('theme: ' + currentTheme);
  updateHUD();
  unlockAchievement('theme', 'CHROMATIC SHIFT', 'Theme: ' + currentTheme);
  }
@@ -480,10 +487,10 @@
  const cmdInput = document.getElementById('cmd-input');
  const cmdList = document.getElementById('cmd-list');
  const commands = [
- { id: 'overdrive', label: 'Activate Overdrive', desc: 'Matrix + chaos', run: () => activateOverdrive() },
+ { id: 'overdrive', label: 'Activate Overdrive', desc: 'Matrix', run: () => activateOverdrive() },
  { id: 'theme-cyan', label: 'Theme: Cyan', desc: 'Default', run: () => setTheme('cyan') },
- { id: 'theme-magenta', label: 'Theme: Magenta', desc: 'Pink/purple', run: () => setTheme('magenta') },
- { id: 'theme-lime', label: 'Theme: Lime', desc: 'Matrix green', run: () => setTheme('lime') },
+ { id: 'theme-magenta', label: 'Theme: Magenta', desc: 'Pink', run: () => setTheme('magenta') },
+ { id: 'theme-lime', label: 'Theme: Lime', desc: 'Green', run: () => setTheme('lime') },
  { id: 'theme-gold', label: 'Theme: Gold', desc: 'Warm', run: () => setTheme('gold') },
  { id: 'hud', label: 'Toggle HUD', desc: 'Telemetry', run: () => toggleHUD() },
  { id: 'glitch', label: 'Trigger Glitch', desc: 'Burst', run: () => triggerPageGlitch() },
@@ -493,7 +500,10 @@
  { id: 'info', label: 'Go Info', desc: '02', run: () => document.getElementById('info') && document.getElementById('info').scrollIntoView({ behavior: 'smooth' }) },
  { id: 'perf', label: 'Perf Mode', desc: 'Low lag', run: () => setPerf(!perfMode) },
  { id: 'secrets', label: 'Secrets Log', desc: 'A key', run: () => openAch() },
- { id: 'burst', label: 'Center Burst', desc: 'Explosion', run: () => { for (let i = 0; i < 28; i++) bursts.push(new BurstParticle(width / 2, height / 2)); } }
+ { id: 'burst', label: 'Center Burst', desc: 'Explosion', run: () => { for (let i = 0; i < 28; i++) bursts.push(new BurstParticle(width / 2, height / 2)); } },
+ { id: 'grav', label: 'Toggle Gravity', desc: 'G key', run: () => setGravity(!gravityOn) },
+ { id: 'freeze', label: 'Freeze Particles', desc: 'F key', run: () => setFrozen(!frozen) },
+ { id: 'warp', label: 'Time Warp', desc: 'W key', run: () => timeWarp() }
  ];
  let cmdActive = 0;
  let filteredCmds = commands;
@@ -502,7 +512,7 @@
  cmdOverlay.classList.add('open');
  if (cmdInput) { cmdInput.value = ''; cmdInput.focus(); }
  renderCmdList(commands); cmdActive = 0;
- unlockAchievement('cmd', 'COMMAND CENTER', 'Palette opened');
+ unlockAchievement('cmd', 'COMMAND CENTER', 'Palette');
  }
  function closeCmd() { if (cmdOverlay) cmdOverlay.classList.remove('open'); }
  function renderCmdList(list) {
@@ -537,13 +547,13 @@
  const bootScreen = document.getElementById('boot-screen');
  const bootLine = document.getElementById('boot-line');
  const bootBar = document.getElementById('boot-bar-fill');
- const bootMessages = ['INITIALIZING SYSTEM...', 'LOADING CORE MODULES...', 'PARTICLE ENGINE... OK', 'IDENTITY: TRAN HOANG NAM', 'LOCATION: NGHE AN', 'ALL SYSTEMS NOMINAL', 'WELCOME'];
+ const bootMessages = ['INITIALIZING...', 'LOADING MODULES...', 'PARTICLE ENGINE OK', 'TRAN HOANG NAM', 'NGHE AN', 'SYSTEMS NOMINAL', 'WELCOME'];
  let bootDone = false;
  function finishBoot() {
  if (bootDone) return;
  bootDone = true;
  if (bootScreen) bootScreen.classList.add('done');
- unlockAchievement('boot', 'SYSTEM ONLINE', 'Boot complete');
+ unlockAchievement('boot', 'SYSTEM ONLINE', 'Boot');
  }
  function runBoot() {
  if (!bootScreen) { finishBoot(); return; }
@@ -624,7 +634,7 @@
  clicks = 0;
  card.classList.toggle('flipped');
  playBeep(660, 0.06);
- registerSecret('flip', 'CARD FLIP', 'Backside revealed');
+ registerSecret('flip', 'CARD FLIP', 'Backside');
  }
  setTimeout(() => { clicks = 0; }, 350);
  });
@@ -685,7 +695,7 @@
  sfxOn = !sfxOn;
  btnSfx.classList.toggle('active', sfxOn);
  btnSfx.textContent = sfxOn ? '♪ ON' : '♪';
- if (sfxOn) { playBeep(520, 0.1); registerSecret('sfx', 'AUDIO LINK', 'Sound enabled'); }
+ if (sfxOn) { playBeep(520, 0.1); registerSecret('sfx', 'AUDIO LINK', 'Sound'); }
  });
  }
  window.addEventListener('mousedown', () => playBeep(320 + Math.random() * 200, 0.04));
@@ -721,7 +731,7 @@
  for (let i = 0; i < (perfMode ? 12 : 28); i++) bursts.push(new BurstParticle(x, y));
  playBeep(400 + Math.random() * 300, 0.06);
  registerSecret('space', 'SPACE BURST', 'Spacebar');
- showToast('BURST', 'Space · particle surge');
+ showToast('BURST', 'Space');
  }
  if ((e.key === 'a' || e.key === 'A') && document.activeElement.tagName !== 'INPUT') {
  e.preventDefault();
@@ -732,18 +742,18 @@
  setInterval(() => {
  if (Date.now() - lastActivity > 28000 && !idleNotified) {
  idleNotified = true;
- addTerminalLine('idle signal... still here?');
+ addTerminalLine('idle... still here?');
  const logo = document.getElementById('nav-logo');
  if (logo) { logo.classList.add('idle-pulse'); setTimeout(() => logo.classList.remove('idle-pulse'), 4000); }
  registerSecret('idle', 'STILL HERE', 'Idle');
- showToast('IDLE', 'System waiting...');
+ showToast('IDLE', 'Waiting...');
  }
  }, 3000);
  function renderAch() {
  const list = document.getElementById('ach-list');
  if (!list) return;
- const ids = ['boot', 'cmd', 'mode', 'flip', 'sfx', 'scatter', 'overdrive', 'space', 'perf', 'idle'];
- const titles = { boot: 'SYSTEM ONLINE', cmd: 'COMMAND CENTER', mode: 'MODE SWITCH', flip: 'CARD FLIP', sfx: 'AUDIO LINK', scatter: 'IDENTITY SCATTER', overdrive: 'OVERDRIVE', space: 'SPACE BURST', perf: 'OPTIMIZED', idle: 'STILL HERE' };
+ const ids = ['boot', 'cmd', 'mode', 'flip', 'sfx', 'scatter', 'overdrive', 'space', 'perf', 'idle', 'gravity', 'freeze', 'warp', 'copy'];
+ const titles = { boot: 'SYSTEM ONLINE', cmd: 'COMMAND CENTER', mode: 'MODE SWITCH', flip: 'CARD FLIP', sfx: 'AUDIO LINK', scatter: 'IDENTITY SCATTER', overdrive: 'OVERDRIVE', space: 'SPACE BURST', perf: 'OPTIMIZED', idle: 'STILL HERE', gravity: 'GRAVITY WELL', freeze: 'TIME LOCK', warp: 'TIME WARP', copy: 'IDENTITY COPY' };
  list.innerHTML = ids.map(id => {
  const u = secretIds.has(id);
  return '<div class="ach-item ' + (u ? 'unlocked' : 'locked') + '"><span class="ach-icon">' + (u ? '◆' : '◇') + '</span><div><div class="ach-title">' + (u ? titles[id] : '??????') + '</div></div></div>';
@@ -762,6 +772,60 @@
  const secBadge = document.getElementById('secrets-badge');
  if (secBadge) secBadge.addEventListener('click', openAch);
  renderAch();
+ function updateSession() {
+ const el = document.getElementById('hud-session');
+ if (!el) return;
+ const s = Math.floor((Date.now() - sessionStart) / 1000);
+ el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+ }
+ setInterval(updateSession, 1000); updateSession();
+ const btnGrav = document.getElementById('btn-grav');
+ function setGravity(on) {
+ gravityOn = on;
+ document.body.classList.toggle('gravity-mode', on);
+ if (btnGrav) { btnGrav.classList.toggle('active', on); btnGrav.textContent = on ? 'GRAV ON' : 'GRAV'; }
+ const hg = document.getElementById('hud-grav'); if (hg) hg.textContent = on ? 'ON' : 'OFF';
+ if (on) { showToast('GRAVITY', 'Particles fall'); registerSecret('gravity', 'GRAVITY WELL', 'G key'); playBeep(200, 0.1); }
+ else showToast('GRAVITY', 'Off');
+ }
+ if (btnGrav) btnGrav.addEventListener('click', () => setGravity(!gravityOn));
+ const freezeBadge = document.getElementById('freeze-badge');
+ function setFrozen(on) {
+ frozen = on;
+ document.body.classList.toggle('frozen', on);
+ if (freezeBadge) freezeBadge.classList.toggle('active', on);
+ if (on) { showToast('FROZEN', 'F to resume'); registerSecret('freeze', 'TIME LOCK', 'F key'); playBeep(150, 0.15); }
+ else { showToast('UNFROZEN', 'Flow restored'); playBeep(400, 0.08); }
+ }
+ let nameClicks = 0;
+ if (heroName) {
+ heroName.addEventListener('click', () => {
+ nameClicks++;
+ if (nameClicks >= 3) {
+ nameClicks = 0;
+ const text = 'Trần Hoàng Nam';
+ if (navigator.clipboard) {
+ navigator.clipboard.writeText(text).then(() => {
+ showToast('COPIED', text); registerSecret('copy', 'IDENTITY COPY', 'Clipboard'); playBeep(660, 0.08);
+ }).catch(() => showToast('COPY', text));
+ } else showToast('COPY', text);
+ }
+ setTimeout(() => { nameClicks = 0; }, 500);
+ });
+ }
+ function timeWarp() {
+ particles.forEach(p => { p.vx *= -1.4; p.vy *= -1.4; });
+ showToast('TIME WARP', 'Velocities reversed');
+ registerSecret('warp', 'TIME WARP', 'W key');
+ playBeep(880, 0.05);
+ triggerPageGlitch();
+ }
+ document.addEventListener('keydown', e => {
+ if (document.activeElement.tagName === 'INPUT') return;
+ if (e.key === 'g' || e.key === 'G') { e.preventDefault(); setGravity(!gravityOn); }
+ if (e.key === 'f' || e.key === 'F') { e.preventDefault(); setFrozen(!frozen); }
+ if (e.key === 'w' || e.key === 'W') { e.preventDefault(); timeWarp(); }
+ });
  window.addEventListener('resize', () => { resize(); initParticles(); if (overdrive) initMatrix(); });
  resize();
  initParticles();
