@@ -1,0 +1,51 @@
+/* v9 */
+#spotlight-overlay {
+  position: fixed; inset: 0; z-index: 6; pointer-events: none;
+  opacity: 0; transition: opacity 0.35s;
+  background: radial-gradient(circle 180px at var(--sx, 50%) var(--sy, 50%), transparent 0%, rgba(0,0,0,0.88) 100%);
+}
+body.spotlight-on #spotlight-overlay { opacity: 1; }
+body.beat-on .hero-name,
+body.beat-on .nav-logo {
+  transform: scale(calc(1 + var(--beat, 0) * 0.04));
+  transition: transform 0.05s linear;
+}
+body.beat-on .orb {
+  opacity: calc(0.15 + var(--beat, 0) * 0.2);
+}
+@keyframes screen-shake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-6px, 3px); }
+  40% { transform: translate(5px, -4px); }
+  60% { transform: translate(-4px, -2px); }
+  80% { transform: translate(3px, 5px); }
+}
+body.screen-shake {
+  animation: screen-shake 0.4s linear;
+}
+#quote-layer {
+  position: fixed; inset: 0; z-index: 7; pointer-events: none; overflow: hidden;
+}
+.falling-quote {
+  position: absolute;
+  top: -40px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+  text-shadow: 0 0 10px currentColor;
+  animation: fall-quote linear forwards;
+  white-space: nowrap;
+}
+@keyframes fall-quote {
+  0% { transform: translateY(0) rotate(-5deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(110vh) rotate(8deg); opacity: 0; }
+}
+@media (max-width: 768px) {
+  #btn-spot, #btn-beat, #btn-card { display: none; }
+  body.spotlight-on #spotlight-overlay {
+    background: radial-gradient(circle 120px at var(--sx, 50%) var(--sy, 50%), transparent 0%, rgba(0,0,0,0.85) 100%);
+  }
+}
