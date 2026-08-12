@@ -7,7 +7,7 @@
   <meta name="description" content="Trang giới thiệu bản thân của Trần Hoàng Nam">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,10 +16,12 @@
       <div class="boot-logo">THN</div>
       <div class="boot-line" id="boot-line">INITIALIZING SYSTEM...</div>
       <div class="boot-bar"><div class="boot-bar-fill" id="boot-bar-fill"></div></div>
-      <div class="boot-skip">CLICK / ESC TO SKIP</div>
+      <div class="boot-skip">CLICK OR ESC TO SKIP</div>
     </div>
   </div>
 
+  <div class="scroll-progress" id="scroll-progress"></div>
+  <div class="page-glitch" id="page-glitch"></div>
   <div class="aurora"></div>
   <canvas id="bg-canvas"></canvas>
   <canvas id="matrix-canvas"></canvas>
@@ -28,11 +30,8 @@
   <div class="scanlines"></div>
   <div class="noise"></div>
   <div class="vignette"></div>
-
-  <div class="scroll-progress" id="scroll-progress"></div>
   <div class="cursor"></div>
   <div class="cursor-follower"></div>
-  <div class="page-glitch" id="page-glitch"></div>
 
   <nav class="section-dots" id="section-dots">
     <a href="#home" class="dot active" data-section="home" title="Home"></a>
@@ -45,6 +44,8 @@
     <div class="hud-row"><span>PARTICLES</span><span id="hud-particles">0</span></div>
     <div class="hud-row"><span>FPS</span><span id="hud-fps">60</span></div>
     <div class="hud-row"><span>THEME</span><span id="hud-theme">CYAN</span></div>
+    <div class="hud-row"><span>CLICKS</span><span id="hud-clicks">0</span></div>
+    <div class="hud-row"><span>PERF</span><span id="hud-perf">OFF</span></div>
   </div>
 
   <nav class="nav">
@@ -55,9 +56,10 @@
       <li><a href="#info" class="nav-link" data-section="info">Info</a></li>
     </ul>
     <div class="nav-right">
-      <div class="secrets-badge" id="secrets-badge" title="Secrets found">◆ 0/7</div>
+      <div class="secrets-badge" id="secrets-badge" title="Secrets found — click to open log">◆ 0/7</div>
       <button class="nav-mode" id="btn-mode" title="Particle mode">REPEL</button>
       <button class="nav-sfx" id="btn-sfx" title="Sound">♪</button>
+      <button class="nav-mode" id="btn-perf" title="Performance mode (fewer particles)">PERF</button>
       <button class="nav-cmd" id="btn-cmd" title="Command Palette (Ctrl+K)">⌘K</button>
       <div class="nav-clock" id="nav-clock">00:00:00</div>
     </div>
@@ -74,32 +76,28 @@
         <h1 class="hero-name" id="hero-name">
           <span class="glitch" data-text="TRẦN HOÀNG NAM">TRẦN HOÀNG NAM</span>
         </h1>
-        <p class="hero-subtitle">
-          <span class="typed-text"></span><span class="cursor-blink">_</span>
-        </p>
+        <p class="hero-subtitle"><span class="typed-text"></span><span class="cursor-blink">|</span></p>
         <div class="hero-cta">
-          <a href="#about" class="btn btn-primary magnetic">
-            <span class="btn-text">Khám phá</span>
+          <a href="#about" class="btn magnetic">
+            <span>Explore</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             <span class="btn-glow"></span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
           </a>
         </div>
-        <div class="secret-hint">↑↑↓↓←→←→BA · REPEL button · DBL-CLICK cards · FAST MOUSE</div>
-      </div>
-      <div class="scroll-indicator">
-        <div class="mouse"><div class="wheel"></div></div>
-        <span>SCROLL</span>
+        <p class="secret-hint">Ctrl+K · Space · A · REPEL · Double-click logo</p>
       </div>
       <div class="hero-orbs">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
       </div>
+      <div class="scroll-indicator">
+        <div class="mouse"><div class="wheel"></div></div>
+        <span>SCROLL</span>
+      </div>
     </section>
 
-    <section id="about" class="section about">
+    <section id="about" class="section">
       <div class="container">
         <div class="section-header">
           <span class="section-number">01</span>
@@ -107,38 +105,38 @@
           <div class="section-line"></div>
         </div>
         <div class="about-grid">
-          <div class="about-card glass magnetic" data-tilt>
+          <div class="about-card glass" data-tilt>
             <div class="card-border"></div>
             <div class="card-scan"></div>
             <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-            <h3 class="scramble-target" data-text="Về tôi">Về tôi</h3>
-            <p class="card-front-text">Xin chào. Tôi là <strong>Trần Hoàng Nam</strong> — một người trẻ đang trên hành trình khám phá và xây dựng tương lai của chính mình. Sinh ra và lớn lên tại Nghệ An, tôi mang trong mình sự quyết tâm và khát khao chinh phục những điều mới mẻ.</p>
-            <p class="card-back-text">SECRET // “Không chờ cơ hội — tự tạo ra nó.” Double-click card để lật.</p>
-            <span class="flip-hint">DBL-CLICK FLIP</span>
+            <h3 class="scramble-target" data-text="Bản thân">Bản thân</h3>
+            <p class="card-front-text">Mình là <strong>Trần Hoàng Nam</strong> — đam mê sáng tạo, khám phá công nghệ và xây dựng những thứ mới mẻ.</p>
+            <p class="card-back-text">SECRET: Luôn đi trước một bước.</p>
+            <span class="flip-hint">DOUBLE-CLICK</span>
           </div>
-          <div class="about-card glass magnetic" data-tilt>
+          <div class="about-card glass" data-tilt>
             <div class="card-border"></div>
             <div class="card-scan"></div>
             <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-            <h3 class="scramble-target" data-text="Phong cách">Phong cách</h3>
-            <p class="card-front-text">Tôi yêu sự tối giản nhưng mạnh mẽ. Thích những thứ có chiều sâu, hiệu quả và mang dấu ấn cá nhân. Luôn hướng tới sự hoàn thiện trong từng chi tiết nhỏ nhất.</p>
-            <p class="card-back-text">SECRET // Phong thái: tối · sắc · không thỏa hiệp.</p>
-            <span class="flip-hint">DBL-CLICK FLIP</span>
+            <h3 class="scramble-target" data-text="Định hướng">Định hướng</h3>
+            <p class="card-front-text">Hướng tới kỹ thuật, thiết kế và trải nghiệm số — <strong>code · create · conquer</strong>.</p>
+            <p class="card-back-text">SECRET: Future is compiled.</p>
+            <span class="flip-hint">DOUBLE-CLICK</span>
           </div>
-          <div class="about-card glass magnetic" data-tilt>
+          <div class="about-card glass" data-tilt>
             <div class="card-border"></div>
             <div class="card-scan"></div>
             <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-            <h3 class="scramble-target" data-text="Hành trình">Hành trình</h3>
-            <p class="card-front-text">Mỗi ngày là một bước tiến. Tôi tin vào việc học hỏi liên tục, thử thách bản thân và biến ý tưởng thành hiện thực. Tương lai không chờ đợi — nó được tạo ra.</p>
-            <p class="card-back-text">SECRET // 2009 → ∞ · Nghệ An origin.</p>
-            <span class="flip-hint">DBL-CLICK FLIP</span>
+            <h3 class="scramble-target" data-text="Tinh thần">Tinh thần</h3>
+            <p class="card-front-text"><strong>Stay sharp. Stay rare.</strong> Không dừng lại ở mức trung bình.</p>
+            <p class="card-back-text">SECRET: Glitch is a feature.</p>
+            <span class="flip-hint">DOUBLE-CLICK</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="info" class="section info">
+    <section id="info" class="section">
       <div class="container">
         <div class="section-header">
           <span class="section-number">02</span>
@@ -146,45 +144,41 @@
           <div class="section-line"></div>
         </div>
         <div class="info-grid">
-          <div class="info-item glass magnetic" data-tilt>
+          <div class="info-item glass" data-tilt>
             <div class="info-ring"></div>
-            <div class="info-label">Họ và tên</div>
-            <div class="info-value">Trần Hoàng Nam</div>
             <div class="info-glow"></div>
+            <div class="info-label">Họ tên</div>
+            <div class="info-value scramble-target" data-text="Trần Hoàng Nam">Trần Hoàng Nam</div>
           </div>
-          <div class="info-item glass magnetic" data-tilt>
+          <div class="info-item glass" data-tilt>
             <div class="info-ring"></div>
+            <div class="info-glow"></div>
             <div class="info-label">Ngày sinh</div>
-            <div class="info-value">02 / 01 / 2009</div>
-            <div class="info-glow"></div>
+            <div class="info-value">02/01/2009</div>
           </div>
-          <div class="info-item glass magnetic" data-tilt>
+          <div class="info-item glass" data-tilt>
             <div class="info-ring"></div>
-            <div class="info-label">Địa chỉ</div>
-            <div class="info-value">Nghệ An, Việt Nam</div>
             <div class="info-glow"></div>
-          </div>
-          <div class="info-item glass magnetic" data-tilt>
-            <div class="info-ring"></div>
             <div class="info-label">Tuổi</div>
-            <div class="info-value age-counter" id="age-years">17</div>
-            <div class="live-age" id="live-age">— ngày · — giờ · — giây</div>
+            <div class="info-value"><span id="age-years">17</span></div>
+            <div class="live-age" id="live-age">—</div>
+          </div>
+          <div class="info-item glass" data-tilt>
+            <div class="info-ring"></div>
             <div class="info-glow"></div>
+            <div class="info-label">Địa chỉ</div>
+            <div class="info-value scramble-target" data-text="Nghệ An">Nghệ An</div>
           </div>
         </div>
       </div>
     </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-logo" data-text="THN">THN</div>
-          <p class="footer-text">© 2026 Trần Hoàng Nam · All systems operational</p>
-          <div class="footer-line"></div>
-        </div>
-      </div>
-    </footer>
   </main>
+
+  <footer class="footer">
+    <div class="footer-logo">THN</div>
+    <p class="footer-text">Trần Hoàng Nam · Stay sharp. Stay rare.</p>
+    <div class="footer-line"></div>
+  </footer>
 
   <div class="terminal" id="terminal">
     <div class="terminal-header">
@@ -205,6 +199,17 @@
       <input type="text" class="cmd-input" id="cmd-input" placeholder="Type a command..." autocomplete="off">
       <div class="cmd-list" id="cmd-list"></div>
       <div class="cmd-hint">↑↓ navigate · Enter run · Esc close</div>
+    </div>
+  </div>
+
+  <div class="ach-overlay" id="ach-overlay">
+    <div class="ach-box">
+      <div class="ach-header">
+        <span>◆ SECRETS LOG</span>
+        <button class="ach-close" id="ach-close">✕</button>
+      </div>
+      <div class="ach-list" id="ach-list"></div>
+      <div class="ach-footer">Press A to toggle · Collect all 7</div>
     </div>
   </div>
 
